@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>YouTube Sentiment Analyzer</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            margin-top: 80px;
+        }
+        .box {
+            background: white;
+            padding: 30px;
+            width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        input {
+            width: 95%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid gray;
+        }
+        button {
+            margin-top: 15px;
+            padding: 12px;
+            width: 100%;
+            background: blue;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <h2>YouTube Sentiment Analyzer</h2>
+        <input type="text" id="videoLink" placeholder="Paste YouTube video link here">
+        <button onclick="analyze()">Analyze</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function analyze() {
+            let link = document.getElementById("videoLink").value;
+
+            fetch("http://127.0.0.1:5000/analyze", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ url: link })
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("result").innerHTML = "Sentiment: " + data.sentiment;
+            });
+        }
+    </script>
+</body>
+</html>
